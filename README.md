@@ -6,3 +6,13 @@ Guide: https://boot.dev/build/build-pokedex-cli
 
 Video: https://youtu.be/8yrmAGcCnKg
 
+PokeAPI: https://pokeapi.co/
+
+## Getting Started
+
+```go
+go install github.com/hwangblood/pokedexcli
+
+pokedexcli
+```
+
