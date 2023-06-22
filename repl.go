@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-type commandCallback = func() error
+type commandCallback = func(*config) error
 
 type cliCommand struct {
 	name        string
@@ -28,10 +28,20 @@ func getCommands() map[string]cliCommand {
 			description: "Turns off the Pokédex REPL",
 			callback:    callbackExit,
 		},
+		"map": {
+			name:        "map",
+			description: "Lists the next page of location areas",
+			callback:    callbackMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Lists the previous page of location areas",
+			callback:    callbackMapBack,
+		},
 	}
 }
 
-func startRepl() {
+func startRepl(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	availableCmds := getCommands()
 
@@ -54,7 +64,10 @@ func startRepl() {
 			fmt.Printf("invalid command: %v\n", commandName)
 			continue
 		}
-		command.callback()
+		err := command.callback(cfg)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 }
